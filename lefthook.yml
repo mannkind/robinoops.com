@@ -1,0 +1,13 @@
+# Requires lefthook on PATH (mise use -g lefthook).
+# Install into .git/hooks; the global Git hooks forward here.
+pre-commit:
+  jobs:
+    - name: typecheck and lint
+      run: npm run check
+
+pre-push:
+  jobs:
+    - name: production build
+      run: npm run build
+    - name: unit tests
+      run: npm test

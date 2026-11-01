@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f5ed" />
+    <meta name="description" content="Turn Robinhood credit card statement PDFs into reconciled QFX files. Runs in your browser. No uploads, no account, no analytics." />
+    <title>RobinOops — Your statement. Your data.</title>
+    <script type="module" src="./src/main.ts"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#converter">Skip to converter</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="wordmark" href="./" aria-label="RobinOops home">
+          <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="11" fill="currentColor" /><path d="M12 11h10l6 6v12H12V11Z" stroke="#f5f5ed" stroke-width="2" stroke-linejoin="round" /><path d="M22 11v7h6M16 23h8M16 27h5" stroke="#f5f5ed" stroke-width="2" /><path d="m27 5 2 4 4 1" stroke="#b5ed79" stroke-width="2" stroke-linecap="round" /></svg>
+          <span>Robin<span class="wordmark-oops">Oops</span><span class="brand-period">.</span></span>
+        </a>
+        <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Local files. Local processing.</span>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div>
+            <p class="eyebrow">THE EXPORT BUTTON THEY FORGOT</p>
+            <h1 id="hero-title">They had one job.<br /><span>Export your transactions.</span></h1>
+            <p class="hero-description">Your credit card statement, minus the spreadsheet gymnastics. Turn a Robinhood PDF into a reconciled QFX file for your finance app.</p>
+          </div>
+          <div class="format-note" aria-label="PDF to QFX, entirely in your browser">
+            <span class="format-type">PDF</span><span class="format-arrow" aria-hidden="true">↗</span><span class="format-type format-output">QFX</span>
+            <span class="format-caption">A small fix for a very basic feature.</span>
+          </div>
+        </section>
+
+        <section id="converter" class="converter" aria-label="Statement converter" tabindex="-1">
+          <div class="input-panel">
+            <div class="section-heading"><span class="step-number">01</span><h2>Bring your statement</h2></div>
+            <p class="support-note">Robinhood <strong>credit card</strong> PDFs only. Brokerage statements and CSV files are not supported.</p>
+            <div id="drop-zone" class="drop-zone">
+              <svg class="upload-icon" width="42" height="42" viewBox="0 0 42 42" fill="none" aria-hidden="true"><path d="M12 5h13l7 7v24H12V5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" /><path d="M25 5v8h7M21 29V18m-5 5 5-5 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /><path d="M7 11v27h20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+              <p class="drop-title">Drop one statement here</p>
+              <p class="drop-hint">or choose a PDF from your device</p>
+              <label class="file-picker">Choose PDF<input id="pdf-input" type="file" accept="application/pdf,.pdf" aria-label="Choose one Robinhood credit card statement PDF" aria-describedby="file-privacy" /></label>
+              <p id="file-privacy" class="file-privacy">Your file stays on your device.</p>
+            </div>
+            <div id="file-selection" class="file-selection" hidden>
+              <div><span class="small-label">SELECTED STATEMENT</span><p id="file-name" class="file-name"></p></div>
+              <button id="reset-button" type="button" class="text-button">Clear</button>
+            </div>
+            <div id="status" class="status" role="status" aria-live="polite" aria-atomic="true">Ready when your statement is.</div>
+            <div id="error" class="error-message" role="alert" aria-atomic="true" hidden></div>
+
+            <details class="advanced">
+              <summary>Advanced QFX settings</summary>
+              <div class="advanced-content">
+                <p>These identify the financial institution in the export. Defaults match the original converter; they are not verified Quicken institution credentials.</p>
+                <label for="org">Organization <span class="field-code">ORG</span></label>
+                <input id="org" type="text" value="Robinhood Credit" autocomplete="off" spellcheck="false" />
+                <label for="fid">Financial institution ID <span class="field-code">FID</span></label>
+                <input id="fid" type="text" value="0000" autocomplete="off" spellcheck="false" />
+                <label for="intu-bid">Intuit bank ID <span class="optional">optional</span></label>
+                <input id="intu-bid" type="text" value="" autocomplete="off" spellcheck="false" aria-describedby="bank-id-note" />
+                <p id="bank-id-note">No valid bank ID is invented here. Quicken may require the correct Intuit bank ID for your institution before it will import a QFX file.</p>
+              </div>
+            </details>
+            <aside class="privacy-note" aria-label="Privacy">
+              <svg width="18" height="21" viewBox="0 0 18 21" fill="none" aria-hidden="true"><path d="m9 1 7 3v6c0 5-7 9-7 9s-7-4-7-9V4l7-3Z" stroke="currentColor" stroke-width="1.5" /><path d="m5 10 3 3 5-6" stroke="currentColor" stroke-width="1.5" /></svg>
+              <p><strong>Private by design, not by checkbox.</strong> Processing happens in your browser. No file uploads, analytics, or statement storage. All app assets are served by this site, not a CDN.</p>
+            </aside>
+          </div>
+
+          <div id="output-panel" class="output-panel" aria-busy="false">
+            <div class="section-heading"><span class="step-number">02</span><h2>Check it. Take it with you.</h2></div>
+            <div id="empty-state" class="empty-state">
+              <div class="empty-symbol" aria-hidden="true">=</div>
+              <h3>Good exports start with the math.</h3>
+              <p>Choose a statement to see your transactions here. Before you can download, every cent must reconcile against the statement’s balances.</p>
+              <ol class="process-list"><li><span>Read</span>Extract the statement’s transactions.</li><li><span>Reconcile</span>Check charges and credits against balances.</li><li><span>Export</span>Download a QFX file you control.</li></ol>
+            </div>
+            <section id="results" aria-labelledby="results-title" hidden>
+              <div class="results-header"><div><p class="eyebrow">STATEMENT PREVIEW</p><h3 id="results-title">Card ending <span id="account-last4"></span></h3><p id="statement-range" class="statement-range"></p></div><span class="reconciled-badge">Reconciled to the cent</span></div>
+              <dl class="balance-grid"><div><dt>Previous balance</dt><dd id="previous-balance"></dd></div><div><dt>New balance</dt><dd id="new-balance"></dd></div><div><dt>Charges</dt><dd id="charges"></dd></div><div><dt>Credits &amp; payments</dt><dd id="credits" class="credit-amount"></dd></div></dl>
+              <div class="reconciliation"><span class="small-label">THE MATH CHECKS OUT</span><p id="reconciliation-proof"></p><p class="reconciliation-caption">Previous balance + charges − credits = new balance</p></div>
+              <div class="transactions-heading"><h4>Transactions <span id="transaction-count" class="count-badge"></span></h4><p>USD · <strong>+ charge</strong> / <strong>− credit</strong></p></div>
+              <div class="table-scroll" role="region" aria-label="Statement transactions, scroll to view all columns" tabindex="0">
+                <table><caption class="sr-only">All parsed transactions. Amounts use statement signs: positive charges, negative credits. Foreign currency details appear under the description.</caption><thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col" class="amount-cell">Amount</th></tr></thead><tbody id="transaction-rows"></tbody></table>
+              </div>
+              <p class="export-sign-note">QFX uses the credit-card account convention: charges export as debits (negative), credits as positive.</p>
+            </section>
+            <div class="export-bar"><p id="export-note">A reconciled statement unlocks your download.</p><button id="download-button" class="download-button" type="button" disabled>Download QFX <span aria-hidden="true">↓</span></button></div>
+          </div>
+        </section>
+        <section class="bottom-note" aria-label="How this works"><span class="small-label">NO ACCOUNT. NO UPLOAD. NO NONSENSE.</span><p>PDF in. QFX out. Your financial data never needed a round trip to someone else’s server.</p></section>
+      </main>
+      <footer><span class="footer-brand">RobinOops.</span><p>An independent tool. Not affiliated with, endorsed by, or sponsored by Robinhood.</p><span class="footer-end">Your data deserves an exit.</span></footer>
+    </div>
+  </body>
+</html>

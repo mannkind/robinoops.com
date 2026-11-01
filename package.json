@@ -1,0 +1,30 @@
+{
+  "name": "robinoops",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/vendor-pdfjs.ts",
+    "prebuild": "npm run check && node scripts/vendor-pdfjs.ts",
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build --base=./",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "check": "npm run typecheck && npm run lint"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.4.0",
+    "pdfjs-dist": "6.4.299"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "eslint": "10.14.0",
+    "jiti": "2.7.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vite": "8.3.5"
+  }
+}
